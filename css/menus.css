@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* CSS Document */
+.menuVideo 
+{
+
+	
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 400px;
+	height: 250px;
+	margin-top: -125px;
+	margin-left: -200px;
+ 	overflow: auto;
+	border: 1px solid gray;
+	background-color:#333;
+	color:#FFFFFF;
+	font-family:Arial,Helvetica,sans-serif;
+	z-index:10000;
+	
+} 
+
+/* Cambio el color de los links (ojo, por ahora afecta a tó cristo!! */
+	a{
+color:#FFFFFF;
+}
+a:hover{
+color:#FFFFFF;
+} 

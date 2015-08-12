@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="EXIF/Is it possible to create a custom namespace tag in XMP Dublin core metadata  - Stack Overflow_files/|js/|EXIF/jQuery EXIF Demo_files/|js/external/|EXIF/|ajaximageUpload/scripts/" kind="src" path=""/>
+	<classpathentry kind="src" path="ajaximageUpload/scripts"/>
+	<classpathentry excluding="Is it possible to create a custom namespace tag in XMP Dublin core metadata  - Stack Overflow_files/|jQuery EXIF Demo_files/" kind="src" path="EXIF"/>
+	<classpathentry kind="src" path="EXIF/Is it possible to create a custom namespace tag in XMP Dublin core metadata  - Stack Overflow_files"/>
+	<classpathentry kind="src" path="EXIF/jQuery EXIF Demo_files"/>
+	<classpathentry excluding="external/" kind="src" path="js"/>
+	<classpathentry kind="src" path="js/external"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

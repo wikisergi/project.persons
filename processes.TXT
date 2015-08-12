@@ -1,0 +1,11 @@
+Regenera miniaturas:
+
+http://192.168.0.200/mapemio30/generaMiniaturasZoom3.php?nombre=spain3e&num=256&num2=256&doGenerate=Generate
+http://192.168.0.200/mapemio30/generaMiniatura.php?nombre=spain3e&num=256&num2=256&doGenerate=Generate
+
+Incrusta mapa:
+http://192.168.0.200/serGIS1/incrustafotoBigSize.php?mapa=../maps/map4/&&foto=Relief_World_Map_by_maps-for-free.jpg&&x=6670&&y=9700&&width=16384&&height=12544
+http://192.168.0.200/serGIS1/incrustafotoBigSize.php?mapa=../maps/map5/&&foto=Relief_World_Map_by_maps-for-free.jpg&&x=7200&&y=9700&&width=16384&&height=12544
+
+Proxima:
+http://192.168.0.200/serGIS1/incrustafotoBigSize.php?mapa=../maps/EstoEsCanarias/&&foto=Relief_World_Map_by_maps-for-free.jpg&&x=8000&&y=9700&&width=16384&&height=12544

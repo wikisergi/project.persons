@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Acceso restringido: introduce usuario y password"
+AuthUserFile /etc/apache2/.htpasswd
+Require user prueba

@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>theMap</title>
+<script src="js/jquery-1.4.2.min.js"></script>
+<script src="js/jquery.ui.core.min.js"></script>
+<script src="js/jquery.ui.widget.min.js"></script>
+<script src="js/jquery.ui.mouse.min.js"></script>
+<script src="js/jquery.ui.draggable.min.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script> 
+<script src="js/jquery.event.wheel-1.0.js"></script>  
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+
+<script src="js/menuDesplegable.js"></script>   
+
+<script src="js/dibujaBloques.js"></script>   
+
+<script src="ajaximageUpload/scripts/jquery.form.js"></script>   
+
+<script src="js/md5.js"></script>   
+ 
+<script src="js/botones.js"></script>   
+<script src="js/inserciones.js"></script>   
+<script src="js/configuraDrag.js"></script>   
+<script src="js/teclado.js"></script>   
+<script src="js/raton.js"></script>   
+
+
+<link href="Fonts/fonts_firefox.css" rel="stylesheet" type="text/css"/>
+<link href="css/computer_firefox.css" rel="stylesheet" type="text/css"/>
+<link href="css/bloques.css" rel="stylesheet" type="text/css"/>
+<link href="css/menus.css" rel="stylesheet" type="text/css"/>
+<link href="css/menuDesplegable.css" rel="stylesheet" type="text/css"/>
+<link href="css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  
+
+<script type="text/javascript">
+
+	// Fuerzo poder hacer cross-domain access:
+	jQuery.support.cors = true; // force cross-site scripting (as of jQuery 1.5)
+
+	var carga;
+	
+// Declaración variables globales	
+
+//	var URL1 = "http://pisos.comoj.com/";     //indica dónde se encuentran almacenados los sectores del mapa.
+	var URL1 = "http://www.abillionpics.com/basic2/0/";     //indica dónde se encuentran almacenados los sectores del mapa.
+//	var URL2 = "http://pisos.comoj.com/";     //indica dónde se encuentran almacenados los sectores del mapa.
+	var URL2 = "http://www.abillionpics.com/basic2/0/";     //indica dónde se encuentran almacenados los sectores del mapa.
+	
+	var URL1 ="Mapas/Rags/";
+	var URL2 ="Mapas/Rags/";
+
+	var URL1 ="Mapas/super/";
+	var URL1 ="Mapas/corsetsYmas/";
+	var URL1 ="Mapas/Sergi/";
+	var URL1 ="Mapas/expansion1/";
+
+	var URL1 ="Mapas/superMapa/sector12/";
+	var URL1 ="Mapas/queen/";
+//	var URL2 ="";
+	var URL1 ="HTTP://192.168.0.200/Mapas/corsetsYmas/";
+
+	var URL1 ="../../Mapas/Rags/";
+	var URL1 ="../../Mapas/Prueba8/";
+
+	var URL1 ="../../Mapas/SergiWilliam/";
+
+	var URL1 ="../../Mapas/SergiWilliam-copy/";
+
+	var URL1 ="../../Mapas/FotoMapa1/";
+
+	var URL1 ="../../Mapas/Publico1/";
+
+
+//	var URL1 ="HTTP://192.168.0.195/Mapas/corsetsYmas/";
+	
+	var px = -1000;
+	var px2 = -1000;
+	var PRUEBAS=0;
+	
+	var ANCHO_SECTOR=256;
+	var ALTO_SECTOR=256;
+	
+	var LOAD_MARGINX=ANCHO_SECTOR;  // zona alrededor del viewport dentro de la cual también se cargarán sectores
+	var LOAD_MARGINY=ALTO_SECTOR;
+
+
+	var Primerox=-ANCHO_SECTOR;
+	var Primeroy=-ALTO_SECTOR;
+	var Ultimox=ANCHO_SECTOR*(UltimoSectorX-PrimerSectorX);
+	var Ultimoy=ALTO_SECTOR*(UltimoSectorY-PrimerSectorY);
+	
+	
+	STARTX=1;		// Indica sector STARTX-STARTY donde el mapa se inicia
+	STARTY=1;
+
+	MUESTRA_TIPS=0;
+
+	var MAX_X=256;
+	var MAX_Y=256;
+	
+	var ANCHO_MAPA = MAX_X*ANCHO_SECTOR; 
+	var ALTO_MAPA = MAX_Y*ALTO_SECTOR; 
+	
+	
+	var MOSTRAR_INFO=0;                // Visualiza o no, control_interrupciones con información interna
+	var MOSTRAR_MINIMAPA=1;
+	var MOSTRAR_CONTROLES=0;
+	var MOSTRAR_TERMINAL=0;
+	var TOOLBAR = 1;     //estado inicial de la ToolBar   0=no visible, 1=visible
+	
+	DIBUJA_BORDES = 1;	//Dibujar bordes de parcelas?	// Arreglarlo
+	MOSTRAR_NOMBRES_PARCELAS = 0;	// Mosstrar información número de parcelas
+	
+		
+	INERTIA = 0;          //Opción de Inercia al hacer dragging     1=Con inercia    0=Sin inercia
+
+	INFOX=1020;    // Coordenadas del panel informativo (control_interrupciones)
+	INFOY=100;
+
+	CARGA_DATOS=1;         // Carga los datos de los sectores si se indica.     0=no carga datos / 1=carga datos
+
+
+	var MOSTRAR_TODO=0;        // A 1, muestra los sectores que están fuera del viewport
+
+	var ANCHO_VIEWPORT = 620;
+	var ALTO_VIEWPORT = 450;
+	var TIPO_VIEWPORT = 1;      // 0=fijo,  1=tamaño máximo siempre (cambiará si cambiamos tamaño de la ventana)	
+	
+	
+	MOSTRAR_BORDE = 1;
+
+	var PrimerSectorX=1;
+	var PrimerSectorY=1;
+	
+	var UltimoSectorX=3;
+	var UltimoSectorY=4;
+	
+	
+	MAX_ZOOM = 6;
+	var zoom=0;   // Zoom inicial y variable que indica el zoom activo en todo momento.
+
+	var mouseX;
+	var mouseY;
+
+	var DEFAULT=1;		// Si DEFAULT==1, si no encuentra la parcela que hay que cargar, cargará la parcela por defecto (la usada para generar el mapa)
+
+
+	CODIFICA_NOMBRE_PARCELAS = 0;
+
+	// Temp1 - Variable que usamos para "apuntarnos" que el ratón está sobre el Tip y por tanto, si se detecta
+	// un onMouseOut encima de su parcela, que no elimine el tip!
+	var Temp1=0;
+	var Temp2;   // Temp2 controla el timer usado para redibujar una vez pasan 1000 msgs. Temp2=null destruye el timer si hacemos drag antes de 1000 msgs.
+
+
+//	sectorActualX	// Contienen en Todo momento, el número de parcela a la que apuntamos!
+//	sectorActualY
+
+	var modoSuperAdmin=0;
+
+
+
+
+function destruye(el) // destruye elemento del DOM
+{
+	el=document.getElementById(el);	// Convierto la cadena que contiene el nombre del objeto, en el OBJETO en SI !
+	padre = el.parentNode; 
+	padre.removeChild(el); 
+	el=null; 
+	padre=null;
+}
+
+
+
+	function fecha()
+	{
+	// Get today's current date.
+var now = new Date();
+
+// Array list of days.
+var days = new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+
+// Array list of months.
+var months = new Array('January','February','March','April','May','June','July','August','September','October','November','December');
+
+// Calculate the number of the current day in the week.
+var date = ((now.getDate()<10) ? "0" : "")+ now.getDate();
+
+// Calculate four digit year.
+function fourdigits(number)	{
+	return (number < 1000) ? number + 1900 : number;
+								}
+dayTwo = new Date();
+
+horas=dayTwo.getHours();
+if(horas<10) horas="0"+horas;
+minutos=dayTwo.getMinutes();
+if(minutos<10) minutos="0"+minutos;
+segundos=dayTwo.getSeconds();
+if(segundos<10) segundos="0"+segundos;
+// Join it all together
+today =  date + "." +
+         (now.getMonth()+1) + "." +
+         (fourdigits(now.getYear())) ;
+today = today + " - " + dayTwo.getHours() + ":"+minutos+":"+segundos;
+// Print out the data.
+return today;	
+	}
+	
+function msg_terminal(mensaje)
+{
+$("#terminal_info").html(fecha()+" - "+ mensaje + "</br>" + $("#terminal_info").html());	
+}
+
+
+// OJO!  AUN NO VA EN INTERNET EXPLORER NI EN CHROME NI EN SAFARI !!!
+// Inicializa eventos del teclado. Extraido del genial http://unixpapa.com/js/testkey.html !
+function init()
+{
+ 
+ /*
+    document.testform.t.value+= '';
+    lines= 0;
+*/
+
+
+
+
+
+
+	iniciaTelcado();
+
+
+
+	// Inicializa la captura de las coordenadas del ratón en todo momento (http://dev-notes.com/code.php?q=33)
+	if (window.Event) {
+	document.captureEvents(Event.MOUSEMOVE);
+	}
+	document.onmousemove = getCursorXY;
+
+
+	setMapURLforUploadImages();
+	
+	
+ 
+}
+
+
+
+
+
+	
+	
+
+
+
+
+	function isLoadable(puntox, puntoy)     //Indica si en el punto indicado, un sector estaría dentro de la Load Area
+	{
+//	return 1;
+		
+		mapa = $('.mapa').position();
+		
+		if ( (mapa.left + puntox > -ANCHO_SECTOR-LOAD_MARGINX) && 
+		     (mapa.left + puntox < ANCHO_VIEWPORT+LOAD_MARGINX+ANCHO_SECTOR) &&
+			 (mapa.top + puntoy > -ALTO_SECTOR-LOAD_MARGINY) && 
+		     (mapa.top + puntoy < ALTO_VIEWPORT+LOAD_MARGINY+ALTO_SECTOR)
+			) return 1; else return 0;
+	}
+	
+	function esVisible(puntox, puntoy)     //Indica si sería visible un sector en el punto indicado
+	{
+		mapa = $('.mapa').position();
+		
+		if ( (mapa.left + puntox > -ANCHO_SECTOR) && 
+		     (mapa.left + puntox < ANCHO_VIEWPORT) &&
+			 (mapa.top + puntoy > -ALTO_SECTOR) && 
+		     (mapa.top + puntoy < ALTO_VIEWPORT)
+			) return 1; else return 0;
+	}
+	
+	function configura()   // aplica al sistema la configuración deseada
+	{
+		if (!TIPO_VIEWPORT)     // Por defecto el tamaño del ViewPort es de 100%x100%, pero si no, se le aplica un tamaño fijo.
+		{
+			$('#viewport').css('width', ANCHO_VIEWPORT);
+			$('#viewport').css('height', ALTO_VIEWPORT);
+		}
+
+		if (!TOOLBAR) $('#toolbar').css('visibility', 'hidden');
+
+		if (MOSTRAR_TODO) $('#viewport').css('overflow', 'visible');
+		
+		$('#control_interrupciones').css('left',INFOX);
+		$('#control_interrupciones').css('top',INFOY);
+		
+		$('#draggable').css('top', -(STARTY-2)*ANCHO_SECTOR);
+		$('#draggable').css('left', -(STARTX-2)*ALTO_SECTOR);
+
+		if (MOSTRAR_BORDE) $("#draggable").find("sector").css({'border': '1px solid gray'});
+	}
+	
+	
+	function muestra_datos()
+	{
+		mapa = $('.mapa').position();
+
+
+
+/*		
+		Primerox = mapa.left + $('#draggable').find('#s' + PrimerSectorX + '-' + PrimerSectorY).position().left;
+		Ultimox = mapa.left+ $('#draggable').find('#s' + UltimoSectorX + '-' + PrimerSectorY).position().left;
+
+
+
+		Primeroy = mapa.top + $('#draggable').find('#s' + PrimerSectorX + '-' + PrimerSectorY).position().top;
+		Ultimoy = mapa.top+ $('#draggable').find('#s' + PrimerSectorX + '-' + UltimoSectorY).position().top;
+	*/	
+//		marcos = document.getElementById('draggable').getElementsByTagName('div');
+		marcos = document.getElementById('draggable').getElementsByClassName('sector');
+		
+		var info="";
+
+		if( $('.cuadrito').length ) info=$('.cuadrito').css('left');
+		
+		$( "#control_interrupciones" ).html(
+			'cuadrito.left='+info+'</br>'+
+			'X del primer sector a dibujar: ' +  (parseInt(-mapa.left/ANCHO_SECTOR) +1)
+			 + '</br>' +
+			'Numero de sectores en Load Area: ' + marcos.length + '</br>' +
+			'mapa.left='+$('#draggable').css('left')+'</br>'+
+			'mapa.top='+mapa.top+'</br>'+
+//			'viewport.width='+$('#viewport').css('width')+'</br>'+
+//			'viewport.height='+$('#viewport').css('height')+'</br>'+
+			'PrimerSectorX='+PrimerSectorX+'</br>'+
+			'UltimoSectorX='+UltimoSectorX+'</br>'+
+			'PrimerSectorY='+PrimerSectorY+'</br>'+
+			'UltimoSectorY='+UltimoSectorY+'</br>'+
+			'Primerox='+Primerox+'</br>'+
+			'Ultimox='+Ultimox+'</br>'+
+			'Primeroy='+Primeroy+'</br>'+
+			'Ultimoy='+$(".cuadrito").css("left")+", "+$(".cuadrito").css("top")+'</br>');//+
+//			'7-3 position=' + (mapa.left + $('#draggable').find('#s' + 7 + '-' + 3).position().left) +', '+(mapa.top + $('#draggable').find('#s' + 7 + '-' + 3).position().top)+'</br>'+
+//			'Es visible el Sector 7-3? ' + isLoadable($('#draggable').find('#s' + 7 + '-' + 3).position().left,$('#draggable').find('#s' + 7 + '-' + 3).position().top) + '</br>'+
+//			x+','+y);
+	}
+		function orient()
+		{
+			switch(window.orientation){
+					case 0: $(document).find("#viewport").css("width",ALTO_VIEWPORT+"px"); $("#viewport").css("height",ANCHO_VIEWPORT+"px");
+			        break;
+		
+					case -90:  $(document).find("#viewport").css("width",ANCHO_VIEWPORT+"px"); $("#viewport").css("height", ALTO_VIEWPORT,+"px");
+				    break;
+
+					case 90:  $(document).find("#viewport").css("width",ANCHO_VIEWPORT+"px"); $("#viewport").css("height", ALTO_VIEWPORT,+"px");
+					break;
+
+			}
+		}	
+
+
+  
+
+
+
+
+
+
+
+
+
+// inhabilita/controla los clicks con el botón derecho del ratón
+function inhabilitar(){
+//    alert ("Esta función está inhabilitada.\n\nPerdonen las molestias.")
+
+
+
+parcelaX=parseInt(x/256)+2;
+parcelaY=parseInt(y/256)+2;
+
+//alert("Restaurando parcela " + sectorActualX + "-" + sectorActualY);
+
+
+
+
+
+
+	datos="map="+ URL1 +"&parcel="+sectorActualX + "-" + sectorActualY;
+
+		carga=$.ajax({
+			async: true,
+			cache: false,
+			url: "defaultparcel.php",
+			type: "GET",
+			data: datos,
+			dataType: "HTML",
+			success: function(data)
+			{ 
+		
+		//	alert(1);
+/*				
+	el=document.getElementById('s' + sectorActualX + '-' + sectorActualY); 
+	padre = el.parentNode; 
+	padre.removeChild(el); 
+	el=null; padre=null;
+*/			
+//	destruye('#s' + sectorActualX + '-' + sectorActualY);
+//alert(2);
+
+//document.getElementById('#s' + sectorActualX + '-' + sectorActualY).setAttribute("src", URL1 + zoom + '/' + x + '-' + y + ".jpg" + (new Date()).getTime());
+
+document.getElementById('s' + sectorActualX + '-' + sectorActualY).src = URL1 + zoom + '/' + sectorActualX + '-' + sectorActualY + ".jpg?" + (new Date()).getTime();
+//				dibuja();
+				dibuja_sincache();
+				},
+			error: function(data)
+			{
+				alert("ERROR!");
+  			}
+		 });	
+
+
+
+
+
+
+
+
+
+
+    
+
+    return false
+}
+
+document.oncontextmenu=inhabilitar
+
+
+function borraTips(tip)
+{
+//	alert(tip);
+	
+	document.getElementById("s"+tip).setAttribute("onMouseOut", "borraTips();Temp1=0;");
+	document.getElementById("s"+tip).setAttribute("onMouseOver", "Temp1=1");
+
+	if(!Temp1)
+	{
+
+		el= document.getElementById('css-admin-dialog');
+		document.getElementById('draggable').removeChild(el);
+		el = null;
+
+
+//	$("#draggable").find("#css-admin-dialog").css("visibility","hidden");
+
+	// ------------------------------------------------------------------------------
+	// Restauro el CSS de todo sector, por si ya se había hecho algun enmarcado antes
+	$("#draggable").find(".sector").css({'padding': '0px'});
+	$("#draggable").find(".sector").css({'margin': '0px'});
+	$("#draggable").find(".sector").css({'border': '0px solid red'});
+	// ------------------------------------------------------------------------------
+	
+	}
+	
+	
+}
+
+
+function cargaAdminDialog(tip)
+{
+	tip=tip.slice(0, -1);
+
+
+	document.getElementById("s"+tip).setAttribute("onMouseOut", "borraTips('"+tip+"');Temp1=0;");
+	document.getElementById("s"+tip).setAttribute("onMouseOver", "Temp1=1");
+
+
+//	$("#draggable").html("");predibuja(); dibuja(); 
+	
+//alert(      parseInt( $("#draggable").find("#s"+tip).css("top").slice(0, -2) ) +256        );
+
+	//Dibuja la Tip
+	$("#draggable").append('<div id="css-admin-dialog">ADMIN</br></br></div>');
+	$("#draggable").find("#css-admin-dialog").css("left", mouseX - $("#draggable").css("left").slice(0, -2) );
+//	$("#draggable").find("#css-admin-dialog").css("left", parseInt($("#draggable").find("#s"+tip).css("left").slice(0, -2)) +250)+"px" ;
+	$("#draggable").find("#css-admin-dialog").css("top", mouseY-200 - $("#draggable").css("top").slice(0, -2));
+//	$("#draggable").find("#css-admin-dialog").css("top", parseInt($("#draggable").find("#s"+tip).css("top").slice(0, -2)) -100) + "px";
+
+	// Temp1 - Variable que usamos para "apuntarnos" que el ratón está sobre el Tip y por tanto, si se detecta
+	// un onMouseOut encima de su parcela, que no elimine el tip!
+
+	document.getElementById("css-admin-dialog").setAttribute("onMouseOver", "Temp1=1");
+	document.getElementById("css-admin-dialog").setAttribute("onMouseOut", "borraTips('"+tip+"')");
+	
+	// ------------------------------------------------------------------------------
+	// Restauro el CSS de todo sector, por si ya se había hecho algun enmarcado antes
+	$("#draggable").find(".sector").css({'padding': '0px'});
+	$("#draggable").find(".sector").css({'margin': '0px'});
+	$("#draggable").find(".sector").css({'border': '0px solid red'});
+	// ------------------------------------------------------------------------------
+
+
+	// ------------------------------------------------------------------------------
+	// Resalto el sector selecionado aplicándole un marco
+	$("#draggable").find("#s"+tip).css({'padding': '-2px'});
+	$("#draggable").find("#s"+tip).css({'margin': '-2px'});
+	$("#draggable").find("#s"+tip).css({'border': '1px solid red'});
+	// ------------------------------------------------------------------------------
+	
+	
+	//$("#minimap").html(URL1+tip+"t");
+	
+		carga=$.ajax({
+			async: true,
+//			crossDomain: true,
+			cache: false,
+			url: URL1+"t/"+tip+"t",
+			type: "GET",
+			dataType: "HTML",
+			success: function(data)
+			{ 
+//				$('#draggable').find('#s'+ $(data).filter('#x').text() + "-" + $(data).filter('#y').text()).html(data+'<div style="position:absolute; top:0px; left:0px; z-index:20; color:#3454; ">Sector '+ $(data).filter('#x').text() + '-' + $(data).filter('#y').text() + '</div>');
+				$("#draggable").find("#css-admin-dialog").append(data);			
+//				$('#draggable').find('#s'+ $(data).filter('#x').text() + "-" + $(data).filter('#y').text()).html(data);
+				
+		//		$(carga).remove();			// realmente hace algo esto?
+				
+				},
+			error: function(data)
+			{
+alert(URL1+tip+"t");
+/*
+				if(SECTOR_ERROR_COLOR)
+      				$('#draggable').find('#s'+x + "-" + y).css('background-color',SECTOR_ERROR_COLOR);
+      			$('#draggable').find('#s'+x + "-" + y).html('ERROR en el Sector: Fichero de sector no encontrado (' +x+'-'+y+') !');
+				
+				
+				
+				// DE MOMENTO LOS MARCO COMO LIBRES...  ESTO SE HA DE QUITAR!!!
+				$('#draggable').find('#s'+x + "-" + y).append('<div id="b" class="inv">0</div>');
+	*/			
+				
+				
+				
+	//			$(carga).remove();			// realmente hace algo esto?
+  			}
+		 });	
+
+	
+}
+
+
+function cargaTip(tip)
+{
+	tip=tip.slice(0, -1);
+//	$("#draggable").html("");dibuja(); 
+	
+//alert(      parseInt( $("#draggable").find("#s"+tip).css("top").slice(0, -2) ) +256        );
+	//Dibuja la Tip
+	
+	$("#draggable").append('<div id="css-tip-dialog"></div>');
+	$("#draggable").find("#css-tip-dialog").css("left", mouseX - $("#draggable").css("left").slice(0, -2) );
+//	$("#draggable").find("#tip").css("left", parseInt($("#draggable").find("#s1-1").css("left").slice(0, -2)) +250)+"px" ;
+	$("#draggable").find("#css-tip-dialog").css("top", mouseY-200 - $("#draggable").css("top").slice(0, -2));
+//	$("#draggable").find("#tip").css("top", parseInt($("#draggable").find("#s1-1").css("top").slice(0, -2)) -100) + "px";
+	
+	// ------------------------------------------------------------------------------
+	// Restauro el CSS de todo sector, por si ya se había hecho algun enmarcado antes
+	$("#draggable").find(".sector").css({'padding': '0px'});
+	$("#draggable").find(".sector").css({'margin': '0px'});
+	$("#draggable").find(".sector").css({'border': '0px solid yellow'});
+	// ------------------------------------------------------------------------------
+
+
+	// ------------------------------------------------------------------------------
+	// Resalto el sector selecionado aplicándole un marco
+	$("#draggable").find("#s"+tip).css({'padding': '-2px'});
+	$("#draggable").find("#s"+tip).css({'margin': '-2px'});
+	$("#draggable").find("#s"+tip).css({'border': '1px solid yellow'});
+	// ------------------------------------------------------------------------------
+	
+	
+	//$("#minimap").html(URL1+tip+"t");
+	
+		carga=$.ajax({
+			async: true,
+//			crossDomain: true,
+			cache: false,
+			url: URL1+"t/"+tip+"t",
+			type: "GET",
+			dataType: "HTML",
+			success: function(data)
+			{ 
+//				$('#draggable').find('#s'+ $(data).filter('#x').text() + "-" + $(data).filter('#y').text()).html(data+'<div style="position:absolute; top:0px; left:0px; z-index:20; color:#3454; ">Sector '+ $(data).filter('#x').text() + '-' + $(data).filter('#y').text() + '</div>');
+				$("#draggable").find("#css-tip-dialog").html(data);			
+//				$('#draggable').find('#s'+ $(data).filter('#x').text() + "-" + $(data).filter('#y').text()).html(data);
+				
+		//		$(carga).remove();			// realmente hace algo esto?
+				
+				},
+			error: function(data)
+			{
+alert(URL1+"t/1-1t");
+/*
+				if(SECTOR_ERROR_COLOR)
+      				$('#draggable').find('#s'+x + "-" + y).css('background-color',SECTOR_ERROR_COLOR);
+      			$('#draggable').find('#s'+x + "-" + y).html('ERROR en el Sector: Fichero de sector no encontrado (' +x+'-'+y+') !');
+				
+				
+				
+				// DE MOMENTO LOS MARCO COMO LIBRES...  ESTO SE HA DE QUITAR!!!
+				$('#draggable').find('#s'+x + "-" + y).append('<div id="b" class="inv">0</div>');
+	*/			
+				
+				
+				
+	//			$(carga).remove();			// realmente hace algo esto?
+  			}
+		 });	
+
+	
+}
+
+
+
+
+
+
+
+
+// DESACTIVA SELECCION DE TEXTO - OJO, ESTO LO TENDREMOS QUE TRABAJAR... ¡EL USUARIO HA DE PODER SELECCIONAR TEXTO!
+document.onselectstart = function() {return false;}		
+//window.onmousemove = function(event){ dibuja(); };
+
+
+
+
+
+function cargaDimensionesMinimap()
+{
+// Calculamos el tamaño del minimapa para redimensionar la capa draggable minimap y que quede afectada por el drag pese a estar el indicador de mini-viewpot
+
+
+document.getElementById("minimap").style.width=document.getElementById("minimapImageIMG").width + "px";
+document.getElementById("minimap").style.height=document.getElementById("minimapImageIMG").height + "px";	
+}
+			
+$(document).ready(function(){
+
+
+
+	$('#photoimg').live('change', function()			
+	{ 
+		pulsaAbrirFoto();
+	    $("#cuadrito1").append('<img src="loader.gif" alt="Uploading...."/>');
+		$("#imageform").ajaxForm({ target: '#cuadrito1'}).submit();
+	});
+
+
+configura();
+	orient();
+/*
+
+	// Precargamos todo...
+	
+	for(x=1;x<=10;x++)
+	{
+		for(y=1;y<=4;y++)
+		{
+	
+		$.ajax({
+			async: false,
+			cache: false,
+			url: x + "-" + y + ".htm",
+			type: "GET",
+			dataType: "HTML",
+			success: function(data){ 
+
+
+				}
+		 });	
+
+		}
+		}
+*/
+
+
+
+init(); 
+
+predibuja();
+			
+dibuja();
+
+iniciaMiniMap();
+
+//$("#minimapImage").html('<img id="minimapImageIMG" src="'+URL1+'miniatura.jpg" onLoad="cargaDimensionesMinimap();"/>');		// Cargo MiniMapa correspondiente al mapa inicial.
+
+	// REVISAR!!!!
+	document.getElementById("minimapImageIMG").src=URL1+"miniatura.jpg";		// El OnLoad declarado en el DIV donde está minimapIMG ya se encarga de redimensionar minimap!
+
+
+//document.getElementById("minimap").style.width="300px"; //document.getElementById("minimapImage").style.width;
+//document.getElementById("minimap").style.height="300px"; //=document.getElementById("minimapImage").style.height;
+
+<!-- $("#minimap").html('<img src="Zin.gif" width="'+parseInt(document.getElementById("minimapImage").style.width)+'" height="'+parseint(document.getElementById("minimapImage").style.height)+'" />'); -->
+
+
+
+
+
+
+configuraRuedaRaton();
+});
+  
+  
+function uploadpic()
+{
+
+
+
+
+		carga=$.ajax({
+			async: true,
+//			cache: false,
+			url: URL + "uploadpic.php",
+			type: "POST",
+			dataType: "html",
+//			data: "datos="+$("#s"+sector).html()+"&sector="+sector_a_guardar+"&x="+x+"&y="+y,
+			data: "archivo="+document.getElementById("propiedades_foto").value,
+//			data: "datos="+data,
+			success: function(data)
+			{ 
+				msg_terminal("GUARDADO! " + document.getElementById("propiedades_foto").value);
+				},
+			error: function(data)
+			{
+				msg_terminal("ERROR GUARDANDO!");
+    			}
+		 });	
+
+
+
+
+	
+	
+}
+
+  
+  
+$(window).load(function(){
+	
+	
+	if(MOSTRAR_INFO) $('#control_interrupciones').css('visibility','visible');    // Muestra información si la opción está habilitada
+		else  $('#control_interrupciones').css('visibility','hidden');
+
+	if(MOSTRAR_MINIMAPA)
+	{
+	 $('#minimap').css('visibility','visible');    // Muestra información si la opción está habilitada
+	 $('#minimap_container').css('visibility','visible');    // Muestra información si la opción está habilitada
+	}
+		else  
+	{
+		$('#minimap').css('visibility','hidden');
+		$('#minimap_container').css('visibility','hidden');
+	}
+	if(MOSTRAR_CONTROLES) $('#controlscontainer').css('visibility','visible');    // Muestra información si la opción está habilitada
+		else  $('#controlscontainer').css('visibility','hidden');
+
+	if(MOSTRAR_TERMINAL) $('#terminal_info').css('visibility','visible');    // Muestra información si la opción está habilitada
+		else  $('#terminal_info').css('visibility','hidden');
+	
+		muestra_datos();    // muestra los datos, que en este punto, serán los iniciales.
+
+
+
+
+  $('#draggable').mouseup(function()
+  {
+	$( "#draggable" ).css( "cursor", 'url(grab.cur),none' );  
+	
+  });
+
+  
+  
+
+  $('#draggable').mousedown(function()
+  {
+	$( "#draggable" ).css( "cursor", 'url(grabbing.cur),none' ); 
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function actualiza_mapa()
+{
+	
+	
+	
+            o = $('.mapa').offset();
+            mapa = $('.mapa').position();
+
+
+
+
+
+
+muestra_datos();
+
+/*
+
+
+
+
+
+
+		
+			Primerox = mapa.left + $('#draggable').find('#s' + PrimerSectorX + '-' + PrimerSectorY).position().left;
+			Ultimox = mapa.left+ $('#draggable').find('#s' + UltimoSectorX + '-' + PrimerSectorY).position().left;
+
+			Primeroy = mapa.top + $('#draggable').find('#s' + PrimerSectorX + '-' + PrimerSectorY).position().top;
+			Ultimox = mapa.top+ $('#draggable').find('#s' + PrimerSectorX + '-' + UltimoSectorY).position().top;
+
+
+			muestra_datos();
+
+			
+			if(Primerox<-1*ANCHO_SECTOR)//&&mapa.left>-(ANCHO_MAPA-2*ANCHO_SECTOR)) // Si Primero.x llega al punto de destrucción, destruimos Primero, creamos un sector a la derecha y el siguiente pasa a ser el Primero
+			{
+				
+				
+				if(UltimoSectorX<MAX_X)
+				{
+					PrimerSectorX++;    // Primero pasa a ser el siguiente a la derecha
+					UltimoSectorX++;
+
+			 	
+				//La coordenada x del nuevo Ultimo es la X del que ahora será penultimo + 1000, que es lo que ocupa un sector
+				// Creamos un nuevo sector a la derecha, que será el nuevo Ultimo
+
+/*
+
+
+				x=UltimoSectorX;
+				//	siguiente fila Y, tambien generamos los primeros
+		
+		
+		
+		
+
+		
+				for(y=PrimerSectorY;y<=UltimoSectorY;y++)
+				{
+
+//					$('#s'+(PrimerSectorX-1) + '-' + y ).empty().remove();  // Destruimos Primero
+				
+					$('#draggable').append('    <div  class="s' +x + "-" + y + '" style="width: '+ANCHO_SECTOR+'px; height: '+ALTO_SECTOR+'px; border:1px solid black; position: absolute; overflow:hidden; left:'+ ((x-2)*ANCHO_SECTOR) +'px; top:'+ ((y-2)*ALTO_SECTOR) +'px; background-color: #FFC;">Sector '+x+','+y+'</br>PRELOADING ...</div>');
+				
+				}
+
+
+				for(y=PrimerSectorY;y<=UltimoSectorY;y++)
+				{
+		
+	
+/*	
+					var xx = $.ajax({
+						crossDomain: true,
+						async: true,
+						cache: false,
+						url: URL + x + "-" + y + ".htm",
+						type: "GET",
+						dataType: "HTML",
+						success: function(data){ 
+							$('#draggable').find('#s'+ $(data).filter('#x').text() + "-" + $(data).filter('#y').text()).html(data+'<div style="position:absolute; top:0px; left:0px; z-index:20; color:#0;">Sector '+ $(data).filter('#x').text() + '-' + $(data).filter('#y').text() + '</div>');
+						},
+						error: function(data){
+      						$('#draggable').find('#s'+x + "-" + y).css('background-color','red');
+			      			$('#draggable').find('#s'+x + "-" + y).html('ERROR en el Sector: Fichero de sector no encontrado!');
+  						}
+					 });	
+	
+	
+				}
+		
+				}
+				
+				
+*/				
+				predibuja(); dibuja();
+
+	//		}
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+
+
+
+			if(Primeroy<-0.1*ALTO_SECTOR&&mapa.top>-(ALTO_MAPA-2*ALTO_SECTOR)) // Si Primero.x llega al punto de destrucción, destruimos Primero, creamos un sector a la derecha y el siguiente pasa a ser el Primero
+			{
+				
+				if(UltimoSectorY<MAX_Y)
+				{
+					PrimerSectorY++;    // Primero pasa a ser el siguiente a la derecha
+					UltimoSectorY++;
+
+
+
+			predibuja(); dibuja();
+			
+			
+			
+				//La coordenada x del nuevo Ultimo es la X del que ahora será penultimo + 1000, que es lo que ocupa un sector
+				// Creamos un nuevo sector a la derecha, que será el nuevo Ultimo
+
+
+
+
+
+				y=UltimoSectorY;
+				//	siguiente fila Y, tambien generamos los primeros
+		
+		
+
+		
+				for(x=PrimerSectorX;x<=UltimoSectorX;x++)
+				{
+
+//					$('#s'+(PrimerSectorX-1) + '-' + y ).empty().remove();  // Destruimos Primero
+				
+					$('#draggable').append('    <div  class="s' +x + "-" + y + '" style="width: '+ANCHO_SECTOR+'px; height: '+ALTO_SECTOR+'px; border:1px solid black; position: absolute; overflow:hidden; left:'+ ((x-2)*ANCHO_SECTOR) +'px; top:'+ ((y-2)*ALTO_SECTOR) +'px; background-color: #FFC;">Sector '+x+','+y+'</br>PRELOADING ...</div>');
+				
+				}
+
+
+				for(x=PrimerSectorX;x<=UltimoSectorX;x++)
+				{
+		
+	
+	
+					var xx = $.ajax({
+			crossDomain: true,
+						async: true,
+						cache: false,
+						url: URL + x + "-" + y + ".htm",
+						type: "GET",
+						dataType: "HTML",
+						success: function(data){ 
+							$('#draggable').find('#s'+ $(data).filter('#x').text() + "-" + $(data).filter('#y').text()).html(data+'<div style="position:absolute; top:0px; left:0px; z-index:20; color:#3454;">Sector '+ $(data).filter('#x').text() + '-' + $(data).filter('#y').text() + '</div>');
+						},
+						error: function(data){
+      						$('#draggable').find('#s'+x + "-" + y).css('background-color','red');
+			      			$('#draggable').find('#s'+x + "-" + y).html('ERROR en el Sector: Fichero de sector no encontrado!');
+  						}
+					 });	
+				}
+
+				
+				}
+
+			}
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+//HAY QUE TRABAJAR A LA HORA DE HACER DRAG AL REVES
+
+
+
+
+/*
+
+
+		if(Ultimox>2*ANCHO_SECTOR&&PrimerSectorX>1) // Si Primero.x llega al punto de destrucción, destruimos Primero, creamos un sector a la derecha y el siguiente pasa a ser el Primero
+		{
+			
+//				alert("ei");
+
+
+		x=PrimerSectorX-1;
+				// Creamos un nuevo sector a la izquierda, que será el nuevo Primero
+		for(y=PrimerSectorY;y<=UltimoSectorY;y++)
+		{
+
+				$('#s'+(UltimoSectorX) + '-' + y ).empty().remove();  // Destruimos Ultimo
+				
+				$('#draggable').append('    <div  class="s' +x + "-" + y + '" style="width: '+ANCHO_SECTOR+'px; height: '+ALTO_SECTOR+'px; border:1px solid black; position: absolute; overflow:hidden; left:'+ ((x-2)*ANCHO_SECTOR) +'px; top:'+ ((y-2)*ALTO_SECTOR) +'px; background-color: #FFC;">Sector '+x+','+y+'</br>PRELOADING ...</div>');
+				
+//$('#draggable').append('    <div  class="s' +x + "-" + y + '" style="width: 1000px; height: 1000px; border:1px solid black; position: absolute; overflow:hidden; left:'+ ((x-2)*1000) +'px; top:'+ ((y-2)*1000) +'px; background-color: #FFC;">Sector '+x+','+y+'</br>PRELOADING ...</div>');
+		
+	
+
+		}		
+		
+				UltimoSectorX--;    // Ultimo pasa a ser el siguiente a la izquierda
+
+				PrimerSectorX--;
+
+
+				
+		for(y=PrimerSectorY;y<=UltimoSectorY;y++)
+		{
+		var xx = $.ajax({
+			crossDomain: true,
+			async: true,
+			cache: false,
+			url: URL + x + "-" + y + ".htm",
+			type: "GET",
+			dataType: "HTML",
+			success: function(data){ 
+				$('#draggable').find('#s'+x + "-" + y).html(''); // elimina el indicador de Preloading.
+				$('#draggable').find('#s'+x + "-" + y).append('<div style="position:absolute; z-index:2; color:#FFFF00;">Sector '+ x + '-' + y + '</div>'+data);								},
+			error: function(data){
+      			$('#draggable').find('#s'+x + "-" + y).css('background-color','red');
+      			$('#draggable').find('#s'+x + "-" + y).html('ERROR en el Sector: Fichero de sector no encontrado!');
+  				}
+
+		 });	
+
+
+		}				
+		
+		
+			
+			}
+
+
+*/		
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//if(INERTIA)	  
+//  jQuery(function() {
+	  
+    var $d = $("#draggable");
+
+    var x1, x2,
+        y1, y2,
+        t1, t2;  // Time
+
+        var minDistance = 20; // Minimum px distance object must be dragged to enable momentum.  (inertia)
+
+    var onMouseMove = function(e) {
+		
+        var mouseEvents = $d.data("mouseEvents");
+        if (e.timeStamp - mouseEvents[mouseEvents.length-1].timeStamp > 4) {
+            mouseEvents.push(e);
+            if (mouseEvents.length > 2) {
+                mouseEvents.shift();
+            }
+        }
+		
+    }
+
+    var onMouseUp = function() {
+        $(document).unbind("mousemove mouseup");
+    }
+	  
+	  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ jQuery("#minimap").draggable({
+	 
+	 
+	 drag: function(event){			
+
+			$("#draggable").css("top", $("#minimap").position().top*32-55*32);
+			$("#draggable").css("left", $("#minimap").position().left*32-73*32);
+
+			//Chapucilla, pero he de utilizar el MultiDraggable!!
+			document.getElementById("minimapImage").style.left=document.getElementById("minimap").style.left;
+			document.getElementById("minimapImage").style.top=document.getElementById("minimap").style.top;
+
+// $("#draggable").css("top", $("#minimap").css("top")*41.6666666666666666666);
+// $("#draggable").css("left", $("#minimap").css("left")*41.6666666666666666666);
+ 
+ 
+predibuja();
+ 
+	},
+	
+	 stop: function(event){		
+	 // Si pongo esto le sienta mal y dá un pequeño bote hacia la izquierda o derecha	
+// 			$("#draggable").css("top", $("#minimap").position().top*32-55*32);
+//			$("#draggable").css("left", $("#minimap").position().left*32-73*32);
+
+// $("#draggable").css("top", $("#minimap").css("top")*41.6666666666666666666);
+// $("#draggable").css("left", $("#minimap").css("left")*41.6666666666666666666);
+ 
+ 
+ dibuja();
+ 
+	}	
+	
+	 
+	 });
+ 
+ 
+ configuraDrag();
+ 
+
+
+
+
+
+    function updateCoordinate(newCoordinate) {
+        jQuery(".count").text(newCoordinate);
+    }
+    
+});
+//  });
+  //]]> 
+  
+
+
+// Pedazo de chapuza, pero que funciona, para poder pasarle el parámetro URL al script ajaximage.php cuando se le llama a la hora de subir una imagen para incrustarla.
+function setMapURLforUploadImages()	
+{
+	document.getElementById('mapurl').value = URL1;
+}
+
+
+function iniciaMiniMap()
+{
+	$("#minimap").css("top", mapa.top/32+55);
+	$("#minimap").css("left", mapa.left/32+73);	
+
+	$("#minimapImage").css("top", mapa.top/32+55);
+	$("#minimapImage").css("left", mapa.left/32+73);	
+	
+	
+	// REVISAR!!!!
+//	document.getElementById("minimapImageIMG").src=URL1+"miniatura.jpg";		// El OnLoad declarado en el DIV donde está minimapIMG ya se encarga de redimensionar minimap!
+}
+
+
+  
+function mapaQueen()
+{
+	URL1 ="HTTP://192.168.0.200/Mapas/Queen/";
+//	setMapURLforUploadImages();  //Esto habrá que hacerlo cuando vayamos a insertar una imagen, y aparezca el FORM de insertar imagen !!!
+	URL2 ="Mapas/Queen/";
+	MAX_X=256;
+	MAX_Y=256;
+	$("#draggable").html('<div id="operaciones" style="z-index:7000; top:0px; left:0px; position:absolute;" ></div>');
+
+//	$("#minimapImage").html('<img src="'+URL1+'miniatura.jpg">');
+	zoom=0;
+	$("#minimapImage").html('<img src="'+URL1+'miniatura.jpg">');
+//	gotoCenter();
+	jumpTo(126, 127);
+	iniciaMiniMap();
+
+}
+ 
+function mapaCorsetsYmas()
+{
+	URL1 ="HTTP://192.168.0.200/Mapas/corsetsYmas/";
+//	setMapURLforUploadImages();  //Esto habrá que hacerlo cuando vayamos a insertar una imagen, y aparezca el FORM de insertar imagen !!!
+	URL2 ="Mapas/corsetsYmas/";
+	MAX_X=128;
+	MAX_Y=128;
+	$("#draggable").html('<div id="operaciones" style="z-index:7000; top:0px; left:0px; position:absolute;" ></div>');
+	$("#minimapImage").html('<img src="'+URL1+'miniatura.jpg">');
+	zoom=6;
+	document.getElementById("draggable").style.top="400px";
+	document.getElementById("draggable").style.left="400px";
+	dibuja();
+	//gotoCenter();
+	iniciaMiniMap();
+}
+
+
+
+function mapaNetwork()
+{
+	URL1 ="../../Mapas/Prueba7/";
+//	setMapURLforUploadImages();  //Esto habrá que hacerlo cuando vayamos a insertar una imagen, y aparezca el FORM de insertar imagen !!!
+	URL2 ="Mapas/Networking/";
+	MAX_X=256;
+	MAX_Y=256;
+	$("#draggable").html('<div id="operaciones" style="z-index:7000; top:0px; left:0px; position:absolute;" ></div>');
+	$("#minimapImage").html('<img src="'+URL1+'miniatura.jpg">');
+	zoom=0;
+//	gotoCenter();
+	jumpTo(1, 1);
+	iniciaMiniMap();
+}
+
+
+
+
+function mapaPrueba8()
+{
+	URL1 ="../../Mapas/Prueba8/";
+//	setMapURLforUploadImages();  //Esto habrá que hacerlo cuando vayamos a insertar una imagen, y aparezca el FORM de insertar imagen !!!
+
+	URL2 ="Mapas/Networking/";
+	MAX_X=256;
+	MAX_Y=256;
+	$("#draggable").html('<div id="operaciones" style="z-index:7000; top:0px; left:0px; position:absolute;" ></div>');
+	$("#minimapImage").html('<img src="'+URL1+'miniatura.jpg">');
+	zoom=0;
+//	gotoCenter();
+	jumpTo(1, 1);
+	iniciaMiniMap();
+}
+
+
+function mapaCorcho()
+{
+	URL1 ="HTTP://192.168.0.200/Mapas/Corcho/";
+//	setMapURLforUploadImages();  //Esto habrá que hacerlo cuando vayamos a insertar una imagen, y aparezca el FORM de insertar imagen !!!
+	URL2 ="HTTP://192.168.0.200/Mapas/Corcho/";
+	MAX_X=128;
+	MAX_Y=128;
+	$("#draggable").html('<div id="operaciones" style="z-index:7000; top:0px; left:0px; position:absolute;" ></div>');
+	$("#minimapImage").html('<img src="'+URL1+'miniatura.jpg">');
+	zoom=2;
+	gotoCenter();
+	iniciaMiniMap();
+}
+
+
+function mapaSergi()
+{
+
+	URL1 ="../../Mapas/Sergi/";
+//	setMapURLforUploadImages();  //Esto habrá que hacerlo cuando vayamos a insertar una imagen, y aparezca el FORM de insertar imagen !!!
+
+
+	URL2 ="Mapas/Sergi/";
+	MAX_X=128;
+	MAX_Y=128;
+	$("#draggable").html('<div id="operaciones" style="z-index:7000; top:0px; left:0px; position:absolute;" ></div>');
+	$("#minimapImage").html('<img src="'+URL1+'miniatura.jpg">');
+	zoom=0;
+	gotoCenter();
+	iniciaMiniMap();
+}
+
+
+function mapaRags()
+{
+	URL1 ="HTTP://192.168.0.200/Mapas/Rags/";
+//	setMapURLforUploadImages();  //Esto habrá que hacerlo cuando vayamos a insertar una imagen, y aparezca el FORM de insertar imagen !!!
+	URL2 ="Mapas/Rags/";
+	MAX_X=256;
+	MAX_Y=256;
+	$("#draggable").html('<div id="operaciones" style="z-index:7000; top:0px; left:0px; position:absolute;" ></div>');
+	$("#minimapImage").html('<img src="'+URL1+'miniatura.jpg">');
+	zoom=0;
+	gotoCenter();
+	iniciaMiniMap();
+}
+
+
+
+
+function mapaAnunciosVarios()
+{
+	
+	URLmap="../GM12b/";
+/*
+	$.getScript(URLmap + "config.js");
+URL1 ="../GM12b/";
+URL2 ="../GM12b/";
+MAX_X=256;
+MAX_Y=256;
+*/
+$.getScript(URLmap + "config.js", function(){doConfig();
+	$("#draggable").html("");
+	gotoCenter();});
+
+}
+
+function gotoInit()
+{
+	STARTX=1;
+	STARTY=1;
+	configura();
+	dibuja();	
+}
+
+function gotoCenter()
+{
+	STARTX=MAX_X/2;
+	STARTY=MAX_Y/2;
+	configura();
+	dibuja();	
+}
+
+
+function jumpTo(x, y)
+{
+	STARTX=x;
+	STARTY=y;
+	configura();
+	dibuja();	
+}
+
+
+
+//function modificarLink(id, url, texto, destino)
+function modificarLink(id, url, texto, destino)
+{
+	document.getElementById(id).innerHTML = texto;
+	document.getElementById(id).href = url;
+//	document.getElementById(id).target = destino;
+}
+
+
+
+function hideInfo()
+{
+	MOSTRAR_INFO=0;
+	$('#control_interrupciones').css('visibility','hidden');
+	modificarLink("showInfoMenu", "javascript:showInfo()" , "Mostrar datos internos");
+}
+
+function showInfo()
+{
+	MOSTRAR_INFO=1;
+	$('#control_interrupciones').css('visibility','visible');
+	modificarLink("showInfoMenu", "javascript:hideInfo()" , "Ocultar datos internos");
+}
+
+function hideMiniMap()
+{
+	MOSTRAR_MINIMAPA=1;
+	$('#minimap').css('visibility','hidden');
+	$('#minimap_container').css('visibility','hidden');
+	modificarLink("showMiniMapMenu", "javascript:showMiniMap()" , "Mostrar MiniMapa");
+}
+
+function showMiniMap()
+{
+	MOSTRAR_MINIMAPA=0;
+	$('#minimap').css('visibility','visible');
+	$('#minimap_container').css('visibility','visible');
+	modificarLink("showMiniMapMenu", "javascript:hideMiniMap()" , "Ocultar MiniMapa");
+}
+
+
+
+function about()
+{
+	alert("           mapemio \n \n ©Sergi William 2012");
+}
+
+  </script>
+  
+</head>
+<!-- <body onorientationchange="orient();">   Esto es solo para IPhone-Ipad! -->
+<body> 
+
+
+<div class="textoinferior" >
+mapemio - ©Sergi William 2012
+</div>
+
+
+<div id="infoCoordenadasRaton" style="z-index:3000; position:absolute; bottom:4px; left:4px; color:#F00; -moz-user-select: none;">
+</div>
+
+
+
+
+
+
+
+
+<div id="control_interrupciones"></div>
+        
+    	<div id="viewport">
+      
+      <!--
+      // Evita que el la mano se quede cerrada si salimos de la página con el ratón y volvemos a entrar
+document.getElementById("draggable").setAttribute("onmouseout", "alert(1)");  
+
+$( "#draggable" ).css( "cursor", 'url(grab.cur),none' );  -->
+      
+ <div id="draggable" class="mapa" style="width:300000px; height:300000px; cursor:url(grab.cur),none; top:0px; left:0px;"onMouseOut="$( '#draggable' ).css( 'cursor', 'url(grab.cur),none' );">        <!-- el onMouseOut evita que el la mano se quede cerrada si salimos de la página con el ratón y volvemos a entrar // OJO, habrá que rectificarlo para cuando el viewport no sea a pantalla completa!! -->
+      <div id="operaciones" style="z-index:7000; top:0px; left:0px; position:absolute;" ></div>    <!-- Donde el usuario inserta sus parcelas   -->     
+     </div>
+
+
+
+
+<div id="toolbar">
+  <table width="200" border="0">
+    <tr>
+      <td><div class="colorToolbar"> <img src="images/mapemio_colour.png" ></div></td>
+      <td>&nbsp;</td>
+      <td><input type="text" name="textfield" id="textfield" size="40"></td>
+      <td><table width="14" border="0">
+        <tr>
+          <td width="18">&nbsp;</td>
+        </tr>
+      </table></td>
+      <td>
+      <td></td>
+
+</td>
+
+    </tr>
+</table>
+  <br>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div id="panel">
+
+<!-- Botón de control del panel -->
+<div style="clear:all; overflow:hidden; position: absolute; left:401px; z-index:1000">
+<input type="submit" name="botonMenu" id="botonMenu" value="Menu" onClick="botonMenu()">
+</div>
+
+<div id="panel_titulo">PANEL</div>
+
+
+<div id="panel_contenido">
+</br></br>
+    <tr>
+<!--      <td><div class="colorToolbar"> <img src="images/mapemio_colour.png" ></div></td> -->
+      <td><input type="submit" name="botonMapList" id="botonMapList" value="MapList" onClick="botonMapList()"></td>
+	</tr></br>
+      <td><input type="submit" name="botonMapGen" id="botonMapGen" value="MapGen" onClick="botonMapGen()"></td></br>
+      <input type="submit" name="botonOpciones" id="botonOpciones" value="Options" onClick="botonOpciones()"></br>
+      <input type="submit" name="botonEligeMapa" id="botonEligeMapa" value="Map" onClick="botonSeleccionarMapa()"></br>
+      <input type="submit" name="cuadro2" id="botonInsertaTexto" value="Texto"></br>
+      <form id="imageform" method="post" enctype="multipart/form-data" action='ajaximage.php'><input type="file" name="photoimg" id="photoimg" size="2"/></br>
+   <input type="hidden" name="mapurl" id="mapurl" />    <!-- su value lo cambiaremos cada vez que cambiamos URL1, incluyendo el inicio! con la función chapucera setMapURLforUploadImages() -->
+</form></br>
+      <td><input type="submit" name="insertarVideo" id="insertarVideo" value="Vídeo" onClick="botonInsertarVideo()"></td></br>
+      <td><input type="submit" name="vaciar" id="vaciar" value="Vacía mapa!"></td></br>
+      <td><input type="submit" name="seleccionar" id="seleccionar" value="Seleccionar"></td></br>
+      <td><input type="submit" name="zoomIn" id="zoomIn" value="zoomIn"></td></br>
+      <td><input type="submit" name="zoomOut" id="zoomOut" value="zoomOut" onClick="CARGA_DATOS=1;"></td></br>
+      <td><input type="submit" name="gotoCenter" id="gotoCenter" value="gotoCenter" onClick="gotoCenter()"></td></br>
+      <td><input type="submit" name="hideMiniMap" id="hideMiniMap" value="hideMiniMap" onClick="hideMiniMap()"></td></br>
+      <td><input type="submit" name="showMiniMap" id="showMiniMap" value="showMiniMap" onClick="showMiniMap()"></td></br>
+      
+      
+
+      
+    </tr>
+</div>
+  
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="toolbar2">
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="minimap_container" class="minimap_container">
+<div class="minimapsubwindow3">
+<div class="minimapsubwindow2">
+<div class="minimapsubwindow"></div>
+</div>
+</div>
+
+<div id="minimap" style="position:absolute; z-index:20000;"></div>	
+<div id="minimapImage" style="position:absolute; z-index:1;">
+
+<img id="minimapImageIMG" src="" onLoad="cargaDimensionesMinimap();"/>
+
+</div>
+
+
+<div id="controlscontainer">
+<div id="controls">
+Controles
+</br>
+</br>
+<center>
+<input type="button" id="left" value="<-"/>
+<input type="button" id="right" value="->"/>
+</br>
+<input type="button" id="ocultarControles" value="Ocultar->"/>
+</br>
+</center>
+<input type="button" id="mostrarControles" value="<<"/>
+</span>
+</div>    
+ </div>            
+
+</div>
+
+
+
+<script>
+$("#mostrarControles").hide("fast");
+$("#mostrarMiniMap").hide("fast");
+
+
+
+$('#zoomIn').click(function()
+{
+if(zoom>0)
+{
+	MAX_X=MAX_X*2;
+	MAX_Y=MAX_Y*2;
+
+  zoom = zoom-1;
+ dibuja();
+}
+});
+
+
+$('#zoomOut').click(function()
+{
+/*
+if(zoom<6)
+{
+	MAX_X=MAX_X/2;
+	MAX_Y=MAX_Y/2;
+
+
+  zoom = zoom+1;
+ dibuja();
+}
+*/
+dibuja();
+});
+
+
+
+$('#right').click(function()
+{
+  $("#draggable").animate({"left": "-=1000px"}, "fast");
+  examina();
+
+});
+
+$('#left').click(function()
+{
+  $("#draggable").animate({"left": "+=1000px"}, "fast");
+  examina();
+
+});
+
+$('#ocultarControles').click(function()
+{
+	$("#mostrarControles").show(1);
+  $("#controls").animate({"left": "+=120px"}, "fast");
+//  $("#controls").html('<input type="button" id="mostrarControles" value="<<"/>');
+
+});
+
+$('#mostrarControles').click(function()
+{
+	$("#mostrarControles").hide(1);
+  $("#controls").animate({"left": "-=120px"}, "fast");
+//  $("#controls").html('<center><input type="button" id="left" value="<-"/><input type="button" id="right" value="->"/></br></br><input type="button" id="ocultarControles" value="Ocultar->"/></center>');
+
+});
+
+
+$('#ocultarMiniMap').click(function()
+{
+	$("#mostrarMiniMap").show(1);
+  $("#minimap").animate({"left": "-=200px"}, "fast");
+//  $("#controls").html('<input type="button" id="mostrarControles" value="<<"/>');
+
+});
+
+$('#mostrarMiniMap').click(function()
+{
+	$("#mostrarMiniMap").hide(1);
+  $("#minimap").animate({"left": "+=200px"}, "fast");
+//  $("#controls").html('<center><input type="button" id="left" value="<-"/><input type="button" id="right" value="->"/></br></br><input type="button" id="ocultarControles" value="Ocultar->"/></center>');
+
+});
+
+
+
+function borraoperaciones()
+{
+	 $("#operaciones").html("");
+}
+
+
+
+$('#botonInsertaTexto').click(function()
+{
+	
+	//$("#operaciones").html("");
+	if(document.getElementById('cuadrito1')!=undefined)
+	{
+		alert("ya");
+	 el=document.getElementById('cuadrito1'); padre = el.parentNode; padre.removeChild(el); el=null; padre=null;
+	}
+	
+	texto = prompt("Texto a incrustar?", "");
+	if(texto==null) return;  // Si le hemos dado a Cancelar, finaliza!
+	mapa = $('.mapa').position();
+	
+	x=(-1)*mapa.left + parseInt($(document).find('#viewport').css('width'))/2-200;
+	y=(-1)*mapa.top + parseInt($(document).find('#viewport').css('height'))/2-200;
+
+
+	$("#operaciones").append('<div class="CursiveSansOblique cuadrito" id="cuadrito1" style="font-size:15px; border:1px dashed yellow; position:absolute; width:300px; height:200px; top:'+y+'px; left:'+x+'px; z-index:500;">'+texto+'<div style="position:absolute; right:-45px; bottom:25px; "><input type="button" id="boton_incrustar_texto" value="OK" onClick="insertar_texto(\''+texto+'\', document.getElementById(\'cuadrito1\').style.left,document.getElementById(\'cuadrito1\').style.top, document.getElementById(\'cuadrito1\').style.width,document.getElementById(\'cuadrito1\').style.height); "/></br><input type="button" id="boton_cancel_incrustar_texto" value="X" onClick="el=document.getElementById(\'cuadrito1\'); padre = el.parentNode; padre.removeChild(el); el=null; padre=null;"></div></div>');
+
+
+
+$(".cuadrito").draggable();  //.attr('contentEditable', true);
+
+$("#cuadrito1").resizable({ handles: 'n, e, s, w, ne, se, sw, nw', autoHide: true, maxWidth: 1000, maxHeight: 1000  }).attr('contentEditable', true);
+
+});
+
+
+
+
+
+
+
+function pulsaAbrirFoto()
+{
+
+	foto="FotoPrueba/RagsKarin.jpg";
+	
+	mapa = $('.mapa').position();
+	
+	
+	// Calculamos el punto medio del viewport:
+	x=(-1)*mapa.left + parseInt($(document).find('#viewport').css('width'))/2;
+	y=(-1)*mapa.top + parseInt($(document).find('#viewport').css('height'))/2;
+
+	// Ajustamos dicho punto a la cuadrícula:
+	x=x - x%256;
+	y=y - y%256;		
+	
+	$("#operaciones").append('<div class="cuadrito" id="cuadrito1" style="border:none; position:absolute; top:'+y+'px; left:'+x+'px; width:100px; height:100px;z-index:0;"><div style="position:absolute; right:-45px; bottom:25px; "><input type="button" id="boton_incrustar_foto" value="OK" onClick="incrustar_foto(\''+foto+'\', document.getElementById(\'cuadrito1\').style.left,document.getElementById(\'cuadrito1\').style.top, document.getElementById(\'fotoRags\').style.width,document.getElementById(\'fotoRags\').style.height)"/></br><input type="button" id="boton_cancel_incrustar_foto" value="X" onClick="el=document.getElementById(\'cuadrito1\'); padre = el.parentNode; padre.removeChild(el); el=null; padre=null;"></div></div>');
+
+
+// Hace draggable la foto que insertamos!
+$(".cuadrito").draggable({ grid: [256, 256]   } );  //.attr('contentEditable', true);
+
+$("#fotoRags").resizable({ handles: 'n, e, s, w, ne, se, sw, nw', autoHide: true, maxWidth: 1000, maxHeight: 1000  }).attr('contentEditable', true);
+}
+
+
+
+<!--
+
+$('#cuadro').click(function()
+{
+	foto="FotoPrueba/RagsKarin.jpg";
+//	foto="FotoPrueba/rags.jpg";
+//	foto="FotoPrueba/Photo1.jpg";
+//	foto="FotoPrueba/doggy.jpg";
+	
+	mapa = $('.mapa').position();
+	
+	x=(-1)*mapa.left + parseInt($(document).find('#viewport').css('width'))/2-200;
+	y=(-1)*mapa.top + parseInt($(document).find('#viewport').css('height'))/2-200;
+	
+	$("#operaciones").append('<div class="cuadrito" id="cuadrito1" style="border:none; position:absolute; top:'+y+'px; left:'+x+'px; width:500px; z-index:0;"><img src='+foto+' id="fotoRags" width="500"/><div style="position:absolute; right:-45px; bottom:25px; "><input type="button" id="boton_incrustar_foto" value="OK" onClick="incrustar_foto(\''+foto+'\', document.getElementById(\'cuadrito1\').style.left,document.getElementById(\'cuadrito1\').style.top, document.getElementById(\'fotoRags\').style.width,document.getElementById(\'fotoRags\').style.height)"/></br><input type="button" id="boton_cancel_incrustar_foto" value="X" onClick="el=document.getElementById(\'cuadrito1\'); padre = el.parentNode; padre.removeChild(el); el=null; padre=null;"></div></div>');
+
+
+
+//$( "#control_interrupciones" ).append(document.getElementsByClassName("cuadrito").outerHTML + $(".cuadrito").html());
+//$( ".cuadrito" ).html($(".mapa").find("#s1-1").html());//$(".mapa").find("#s1-1").html());
+
+
+$(".cuadrito").draggable();  //.attr('contentEditable', true);
+
+$("#fotoRags").resizable({ handles: 'n, e, s, w, ne, se, sw, nw', autoHide: true, maxWidth: 1000, maxHeight: 1000  }).attr('contentEditable', true);
+
+});
+
+
+-->
+
+
+function reloadImg(id) {
+   var obj = document.getElementById(id);
+   var src = obj.src;
+   var pos = src.indexOf('?');
+   if (pos >= 0) {
+      src = src.substr(0, pos);
+   }
+   var date = new Date();
+   obj.src = src + '?v=' + date.getTime();
+   return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$('#vaciar').click(function()
+{
+
+/*
+	// Obtenemos el elemento
+ var el = document.getElementById("draggable");
+ // Obtenemos el padre de dicho elemento
+ // con la propiedad “parentNode”
+var padre = el.parentNode;
+ // Eliminamos el hijo (el) del elemento padre
+ padre.removeChild(el);
+
+
+
+
+		marcos = document.getElementById('draggable').getElementsByClassName('sector');
+	
+		
+		for(a=0;a<marcos.length;a++)
+		{
+
+			{
+				el= document.getElementById('draggable').getElementsByClassName('sector').item(a)
+				document.getElementById('draggable').removeChild(el);
+			}
+
+		}
+*/
+dibuja();
+
+});
+
+
+
+$('#seleccionar').click(function()
+{
+
+document.onselectstart = function() {return true;}	
+
+jQuery("#draggable").draggable("destroy");
+
+  $('#draggable').mouseup(function()
+  {
+	$( "#draggable" ).css( "cursor", 'url(grab.cur),none' );  
+	document.onselectstart = function() {return false;}	
+
+jQuery("#draggable").draggable();
+  });
+
+  
+  
+
+  $('#draggable').mousedown(function()
+  {
+	$( "#draggable" ).css( "cursor", 'normal' ); 
+  });
+
+});
+
+
+/*
+	overflow:hidden;
+	margin:0 auto 0 auto; 
+	height:40px;
+	clear:all;
+	border:1px solid black;
+	position: relative;
+	background-color: #CFF;
+*/
+</script>
+
+
+
+
+
+</body>
+
+
+</html>

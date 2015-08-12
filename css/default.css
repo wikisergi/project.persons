@@ -1,0 +1,383 @@
+
+	/*
+	+--------------------------------------------------------------------------
+	|   Auth Manager - Content Protection & User Management (Open Source)
+	+--------------------------------------------------------------------------
+	|   by ScriptsApart
+	|   (c) 2011 ScriptsApart
+	|   http://www.scriptsapart.com/
+	+--------------------------------------------------------------------------
+	|   Web: http://www.scriptsapart.com/
+	|   Email: support@scriptsapart.com
+	|	Facebook: http://www.facebook.com/pages/Scripts-Apart/149933518360387
+	|	Twitter: http://www.twitter.com/scriptsapart
+	|	Blackberry PIN: 20F03848
+	|	Phone Support: +91 9871084893
+	+--------------------------------------------------------------------------
+	|   > Open Source(100%)
+	|   > First Version: 13th September 2010
+	|	> Version 2.0: 8th February 2011
+	+--------------------------------------------------------------------------
+	*/
+
+/*	Reset CSS is to reduce browser inconsistencies in things like default line heights, 
+margins and font sizes of headings, and so on. */
+
+@import url("reset.css");
+
+/* Stucture of the application. */
+	
+body
+{
+	background:#fff;
+	font:85.5%/1 "Arial", sans-serif;
+}
+	
+small
+{
+	font-size:11px;
+	color:#666666;
+	font-weight:100;
+	line-height:16px;
+}
+
+small a, small a:visited
+{
+	color:#666666;
+}
+	
+a, a:visited
+{
+	text-decoration:none;
+}
+	
+a:hover
+{
+	text-decoration:underline;
+}
+	
+.container
+{
+	background:#fff;
+	width:980px;
+}
+	
+.subcontainer
+{
+	background:#fff;
+	width:980px;
+	text-align:left;
+	margin-top:25px;
+}
+
+/* This CSS contains the header part. */	
+	
+.header
+{
+	height:27px;
+	margin:25px 0 0 0;
+	text-align:left;
+}
+	
+.notifications
+{
+	font-size:11px;
+	color:#666666;
+	padding:5px;
+	text-align:right;
+}
+
+.breadcrums
+{
+	border-bottom:1px dotted #d4d4d4;
+	height:30px;
+	background:#fdfdfd;
+}
+
+.breadcrums p
+{
+	font-size:11px;
+	color:#777777;
+	padding:9px 0 0 8px;
+	text-align:left;
+}
+
+.breadcrums p a, .breadcrums p a:visited
+{
+	color:#777777;
+}
+
+#logged-text td
+{
+	padding:0 5px 0 5px;
+}
+	
+#logged-text td#add a
+{
+	font-weight:bold;
+	color:#006600;
+}
+	
+#logged-text td a, #logged-text td a:visited
+{
+	text-decoration:none;
+	color:#666666;
+}
+	
+#logged-text td a:hover
+{
+	text-decoration:underline;
+	color:#666666;
+}
+	
+img#homelogo
+{
+	border:none;
+	margin-bottom:-5px;
+}
+		
+/* This CSS contains the footer part. */
+
+#footer a
+{
+	color:#333333;
+	text-decoration:none;
+}
+	
+#footer a:visited
+{
+	color:#333333;
+}
+	
+#footer a:hover
+{
+	text-decoration:underline;
+}
+	
+#footer
+{
+	clear:both;
+	color:#333333;
+	margin:25px 0 10px 0;
+	height:50px;
+	text-align:right;
+}
+	
+#nav-footer
+{
+	clear:both;
+	margin:5px 0 5px 0;
+	padding:0;
+	list-style-type:none;
+}
+	
+#nav-footer ul
+{
+	list-style-type:none;
+	padding:0 0 0 6.5em;
+	margin:-1.2em 0 0 0;
+}
+	
+#nav-footer li
+{
+	font-size:11px;
+	display:inline;
+	margin:0 5px 0 5px;
+	padding:0;
+	text-shadow:1px 1px #fff;
+}
+	
+p#copyright
+{
+	font-size:11px;
+	color:#333333;
+	line-height:18px;
+}
+
+/* This CSS contains the index part. */
+	
+#preview
+{
+	width:980px;
+	height:245px;
+	margin-bottom:30px;
+}
+	
+#preview td#first
+{
+	width:570px;
+	padding-left:20px;
+	vertical-align:middle;
+}
+	
+#preview td#second
+{
+	width:410px;
+	vertical-align:middle;
+}
+
+/* This CSS is for the login page of the application. */
+
+.logindiv
+{
+	background:#fff;
+	border:1px solid #d4d4d4;
+	padding:0 0 10px 0;
+	font-size:12px;
+	width:560px;
+	min-height:100px;
+}
+	
+.logindiv table
+{
+	margin:20px 0 0 10px;
+}
+	
+.logindiv table td
+{
+	padding:3px 20px 3px 0;
+	color:#333333;
+	text-align:left;
+}
+	
+.logindiv table td.first
+{
+	color:#666666;
+	font-size:11px;
+	font-weight:bold;
+	text-align:right;
+}
+	
+.logindiv input[type="text"], .logindiv input[type="password"]
+{
+	padding:3px;
+	border:1px solid #aaa;
+	width:250px;
+	-moz-box-shadow:1px 1px #ddd;
+}
+
+.logindiv select
+{
+	padding:3px;
+	border:1px solid #aaa;
+	-moz-box-shadow:1px 1px #ddd;
+}
+	
+#loginmsg
+{
+	font-size:12px;
+	color:#333333;
+	margin:100px 0 130px 0;
+	line-height:24px;
+}
+	
+#quickLinks a
+{
+	font-size:11px;
+	color:#333333;
+}
+	
+#quickLinks p
+{
+	line-height:20px;
+}
+	
+#logindiv-header
+{
+	background:url(../images/top_head.png) repeat-x;
+	border-bottom:1px solid #d4d4d4;
+}
+	
+#logindiv-header p
+{
+	padding:5px;
+	line-height:18px;
+	font-size:13px;
+	font-weight:bold;
+	color:#1a1a1a;
+	text-align:left;
+}
+	
+/* This CSS is for the error and info boxes used in the application. */
+	
+.infobox
+{
+	background-color:#fff9d7;
+	border:1px solid #e0e0e0;
+	border-top:1px solid #f2dede;
+	text-align:left;
+	padding:3px;
+	-moz-box-shadow:1px 1px 1px #f0f0f0;
+	font-size:12px;
+	line-height:16px;
+	color:#333333;
+}
+
+.errorbox
+{
+	background-color:#ffeaea;
+	border:1px solid #e0e0e0;
+	border-top:1px solid #f2dede;
+	-moz-box-shadow:1px 1px 1px #f0f0f0;
+	text-align:left;
+	padding:3px;
+	font-size:12px;
+	line-height:16px;
+	color:#333333;
+}
+
+/* This small CSS is for the index page. */
+
+p#title
+{
+	line-height:30px;
+	font-size:22px;
+	margin-left:6px;
+	color:#555555;
+	font-weight:bold;
+}
+	
+p.text
+{
+	font-size:11px;
+	color:#666666;
+	margin:0 15px 0 6px;
+	line-height:18px;
+}
+	
+.code
+{
+	font-size:11px;
+	line-height:18px;
+	color:#333333;
+	margin:20px 0 0 6px;
+	padding:5px;
+	background:#fcfcfc;
+	height:auto;
+	border:1px solid #d4d4d4;
+	width:680px;
+	letter-spacing:0.5px;
+}
+	
+/* This CSS is for the buttons used in the application. */
+
+input.button, a.button
+{
+	background:#eee url(../images/button_bg.png) repeat 0 0;
+	font-family:"Arial", sans-serif;
+	border:1px solid #3b5998;
+	color:#fff;
+	cursor:pointer;
+	display:-moz-inline-box;
+	display:inline-block;
+	font-size:12px;
+	font-weight:bold;
+	line-height:normal !important;
+	padding:2px 6px;
+	*padding:3px 6px 2px;
+	text-align:center;
+	text-decoration:none;
+	vertical-align:middle;
+	white-space:nowrap;
+	-moz-box-shadow:0 1px 0 rgba(0, 0, 0, .1);
+}
